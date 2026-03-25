@@ -1,0 +1,137 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && (
+        (request.auth.token.email == "quangame52@gmail.com" && request.auth.token.email_verified == true) ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+    
+    function isValidHero(data) {
+      return data.keys().hasAll(['title', 'subtitle', 'description', 'backgroundImage', 'phone', 'bookingUrl']) &&
+             data.title is string && data.title.size() < 200 &&
+             data.subtitle is string && data.subtitle.size() < 200 &&
+             data.description is string && data.description.size() < 1000 &&
+             data.backgroundImage is string && data.backgroundImage.size() < 1000 &&
+             data.phone is string && data.phone.size() < 50 &&
+             data.bookingUrl is string && data.bookingUrl.size() < 1000;
+    }
+
+    function isValidContact(data) {
+      return data.keys().hasAll(['address', 'phone', 'email', 'workingHours', 'facebookUrl', 'tiktokUrl']) &&
+             data.address is string && data.address.size() < 500 &&
+             data.phone is string && data.phone.size() < 50 &&
+             data.email is string && data.email.size() < 100 &&
+             data.workingHours is string && data.workingHours.size() < 200 &&
+             data.facebookUrl is string && data.facebookUrl.size() < 1000 &&
+             data.tiktokUrl is string && data.tiktokUrl.size() < 1000;
+    }
+
+    function isValidService(data) {
+      return data.keys().hasAll(['title', 'desc', 'img', 'iconName', 'order']) &&
+             data.title is string && data.title.size() < 200 &&
+             data.desc is string && data.desc.size() < 1000 &&
+             data.img is string && data.img.size() < 1000 &&
+             data.iconName is string && data.iconName.size() < 50 &&
+             data.order is number;
+    }
+
+    function isValidPromotion(data) {
+      return data.keys().hasAll(['title', 'desc', 'tag', 'img', 'order']) &&
+             data.title is string && data.title.size() < 200 &&
+             data.desc is string && data.desc.size() < 1000 &&
+             data.tag is string && data.tag.size() < 50 &&
+             data.img is string && data.img.size() < 1000 &&
+             data.order is number;
+    }
+
+    function isValidTestimonial(data) {
+      return data.keys().hasAll(['name', 'service', 'content', 'rating', 'order']) &&
+             data.name is string && data.name.size() < 100 &&
+             data['service'] is string && data['service'].size() < 200 &&
+             data.content is string && data.content.size() < 2000 &&
+             data.rating is number && data.rating >= 1 && data.rating <= 5 &&
+             data.order is number;
+    }
+
+    function isValidBooking(data) {
+      return data.keys().hasAll(['name', 'phone', 'email', 'service', 'amount', 'transferCode', 'createdAt', 'status']) &&
+             data.name is string && data.name.size() < 100 &&
+             data.phone is string && data.phone.size() < 50 &&
+             data.email is string && data.email.size() < 100 &&
+             data['service'] is string && data['service'].size() < 200 &&
+             data.amount is number &&
+             data.transferCode is string && data.transferCode.size() < 50 &&
+             data.createdAt is string && data.createdAt.size() < 100 &&
+             data.status is string && data.status.size() < 50;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /content/hero {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidHero(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /content/contact {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidContact(request.resource.data);
+      allow delete: if false;
+    }
+
+    match /services/{serviceId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidService(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /promotions/{promotionId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidPromotion(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidTestimonial(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /users/{userId} {
+      allow read: if isAdmin() || (isAuthenticated() && request.auth.uid == userId);
+      allow create: if isAdmin();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /bookings/{bookingId} {
+      allow read: if isAdmin();
+      allow create: if isValidBooking(request.resource.data);
+      allow update: if isAdmin() && isValidBooking(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
+    match /test/{docId} {
+      allow read: if true;
+    }
+  }
+}

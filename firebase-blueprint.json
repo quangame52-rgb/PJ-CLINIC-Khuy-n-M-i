@@ -1,0 +1,128 @@
+{
+  "entities": {
+    "HeroSection": {
+      "title": "Hero Section",
+      "description": "Content for the hero section of the landing page",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Main title" },
+        "subtitle": { "type": "string", "description": "Subtitle or highlighted text" },
+        "description": { "type": "string", "description": "Short description" },
+        "backgroundImage": { "type": "string", "description": "URL of the background image" },
+        "phone": { "type": "string", "description": "Phone number" },
+        "bookingUrl": { "type": "string", "description": "URL for booking" }
+      },
+      "required": ["title", "subtitle", "description", "backgroundImage", "phone", "bookingUrl"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "A service offered by the clinic",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Name of the service" },
+        "desc": { "type": "string", "description": "Short description of the service" },
+        "img": { "type": "string", "description": "URL of the service image" },
+        "iconName": { "type": "string", "description": "Name of the Lucide icon" },
+        "order": { "type": "number", "description": "Display order" }
+      },
+      "required": ["title", "desc", "img", "iconName", "order"]
+    },
+    "Promotion": {
+      "title": "Promotion",
+      "description": "A promotional offer",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Title of the promotion" },
+        "desc": { "type": "string", "description": "Description or price" },
+        "img": { "type": "string", "description": "URL of the promotion image" },
+        "tag": { "type": "string", "description": "Tag text, e.g., HOT DEAL" },
+        "order": { "type": "number", "description": "Display order" }
+      },
+      "required": ["title", "desc", "img", "tag", "order"]
+    },
+    "Testimonial": {
+      "title": "Testimonial",
+      "description": "Customer review",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Customer name" },
+        "service": { "type": "string", "description": "Service received" },
+        "content": { "type": "string", "description": "Review text" },
+        "rating": { "type": "number", "description": "Rating out of 5" },
+        "order": { "type": "number", "description": "Display order" }
+      },
+      "required": ["name", "service", "content", "rating", "order"]
+    },
+    "ContactInfo": {
+      "title": "Contact Info",
+      "description": "Contact information for the footer",
+      "type": "object",
+      "properties": {
+        "address": { "type": "string", "description": "Physical address" },
+        "phone": { "type": "string", "description": "Phone number" },
+        "email": { "type": "string", "description": "Email address" },
+        "workingHours": { "type": "string", "description": "Working hours" },
+        "facebookUrl": { "type": "string", "description": "Facebook page URL" },
+        "tiktokUrl": { "type": "string", "description": "TikTok page URL" }
+      },
+      "required": ["address", "phone", "email", "workingHours", "facebookUrl", "tiktokUrl"]
+    },
+    "User": {
+      "title": "User",
+      "description": "Admin user",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "User email" },
+        "role": { "type": "string", "description": "User role, e.g., admin" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role", "createdAt"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Customer booking request",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Customer name" },
+        "phone": { "type": "string", "description": "Customer phone" },
+        "email": { "type": "string", "description": "Customer email" },
+        "service": { "type": "string", "description": "Selected service" },
+        "amount": { "type": "number", "description": "Service price" },
+        "transferCode": { "type": "string", "description": "Unique transfer code" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "description": "Booking status" }
+      },
+      "required": ["name", "phone", "email", "service", "amount", "transferCode", "createdAt", "status"]
+    }
+  },
+  "firestore": {
+    "/content/hero": {
+      "schema": { "$ref": "#/entities/HeroSection" },
+      "description": "Hero section content"
+    },
+    "/content/contact": {
+      "schema": { "$ref": "#/entities/ContactInfo" },
+      "description": "Contact information"
+    },
+    "/services/{serviceId}": {
+      "schema": { "$ref": "#/entities/Service" },
+      "description": "List of services"
+    },
+    "/promotions/{promotionId}": {
+      "schema": { "$ref": "#/entities/Promotion" },
+      "description": "List of promotions"
+    },
+    "/testimonials/{testimonialId}": {
+      "schema": { "$ref": "#/entities/Testimonial" },
+      "description": "List of testimonials"
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "List of users"
+    },
+    "/bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "List of bookings"
+    }
+  }
+}
