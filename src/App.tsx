@@ -391,7 +391,7 @@ const BookingModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => voi
     { name: "Giảm mỡ", price: 199000 },
     { name: "Xử lý rạn da", price: 199000 },
     { name: "Phục hồi da nhiễm Corticoid", price: 249000 },
-    { name: "Xử lý hôi nách", price: 1990000 },
+    { name: "Xử lý hôi nách", price: 199000 },
     { name: "Tắm trắng", price: 499000 },
     { name: "Xử lý thâm, mụn", price: 99000 },
     { name: "Khác", price: 99000 }
