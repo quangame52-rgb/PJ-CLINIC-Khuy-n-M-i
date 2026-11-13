@@ -77,9 +77,9 @@ nav.main a:hover,nav.main a.active{background:var(--rose-soft);color:var(--rose-
 .card h3{color:var(--rose-dark)}
 .card .price{font-size:1.35rem;font-weight:800;color:var(--red);margin:8px 0}
 .card .price .old{font-size:1rem;font-weight:400;color:var(--muted);text-decoration:line-through;margin-left:8px}
-.card .tag{position:absolute;top:14px;right:14px;background:var(--red);color:#fff;font-size:.75rem;font-weight:800;letter-spacing:.06em;padding:4px 10px;border-radius:999px}
+.card .tag{display:inline-block;background:var(--red);color:#fff;font-size:.75rem;font-weight:800;letter-spacing:.06em;padding:4px 10px;border-radius:999px;margin-bottom:10px}
 .card .tag.new{background:var(--gold)}
-.card img{border-radius:10px;margin-bottom:12px;width:100%;aspect-ratio:3/2;object-fit:cover}
+.card img{border-radius:10px;margin-bottom:12px;width:100%;aspect-ratio:9/16;object-fit:contain;background:#fff}
 .card .btn{margin-top:10px}
 .card .limit{font-size:.88rem;color:var(--gold-dark);font-weight:600;margin-top:8px}
 
@@ -142,7 +142,7 @@ footer .hotline{font-size:1.4rem;font-weight:800;color:#fde68a}
 .page-hero{background:linear-gradient(135deg,#9d174d,#be185d);color:#fff;padding:40px 0 36px}
 .page-hero h1{color:#fff}
 .page-hero p{color:#fce7f3;max-width:820px}
-.page-hero img{border-radius:var(--radius);margin-top:20px;width:100%;max-height:340px;object-fit:cover}
+.page-hero img{border-radius:var(--radius);margin-top:20px;width:100%;max-width:420px;height:auto;margin-left:auto;margin-right:auto;box-shadow:var(--shadow)}
 .cta-band{background:var(--rose);color:#fff;text-align:center;padding:36px 16px}
 .cta-band h2{color:#fff}
 .cta-band .hotline-big{font-size:1.8rem;font-weight:800;color:#fde68a}
