@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/xu-ly-hoi-nach-binh-duong",
+      "destination": "/xu-ly-hoi-nach-binh-duong.html"
+    },
+    {
+      "source": "/tam-trang-binh-duong",
+      "destination": "/tam-trang-binh-duong.html"
+    },
+    {
+      "source": "/tri-mun-tham-binh-duong",
+      "destination": "/tri-mun-tham-binh-duong.html"
+    },
+    {
+      "source": "/giam-mo-binh-duong",
+      "destination": "/giam-mo-binh-duong.html"
+    },
+    {
+      "source": "/tri-ran-da-binh-duong",
+      "destination": "/tri-ran-da-binh-duong.html"
+    },
+    {
+      "source": "/phuc-hoi-da-nhiem-corticoid",
+      "destination": "/phuc-hoi-da-nhiem-corticoid.html"
+    }
+  ]
+}
