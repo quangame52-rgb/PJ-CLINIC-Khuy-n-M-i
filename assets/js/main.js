@@ -1,7 +1,8 @@
 /* PJ Clinic — main.js (chỉ tăng trải nghiệm, nội dung đã có sẵn trong HTML)
-   LƯU Ý: form đặt hẹn chỉ xử lý phía trình duyệt — không còn lưu về Firebase/Admin
-   như hệ thống cũ (chủ web đã chọn thay hẳn bằng web tĩnh). Khách gửi form xong
-   sẽ thấy hướng dẫn gọi hotline hoặc nhắn Zalo để giữ chỗ. */
+   Form đặt hẹn: gửi thông tin khách vào Google Sheet qua Apps Script webhook
+   (cùng sheet và cùng đoạn script web cũ dùng trước đây). Không còn lưu về
+   Firebase/Admin như hệ thống cũ. Sau khi gửi, khách vẫn thấy hướng dẫn gọi
+   hotline hoặc nhắn Zalo để giữ chắc suất. */
 (function(){
   "use strict";
 
@@ -55,6 +56,32 @@
       if (!promo.value) { promo.style.borderColor = "#dc2626"; ok = false; }
       if (!date.value) { date.style.borderColor = "#dc2626"; ok = false; }
       if (!ok) return;
+      /* Gửi thông tin đặt hẹn vào Google Sheet (Apps Script web app cũ của PJ Clinic).
+         Dùng mode no-cors giống web cũ: trình duyệt gửi đi nhưng không đọc được
+         phản hồi — nếu gửi lỗi thì khách vẫn giữ chỗ được qua hotline/Zalo bên dưới. */
+      try {
+        var dParts = date.value.split("-");
+        var dateText = dParts.length === 3 ? dParts[2] + "/" + dParts[1] + "/" + dParts[0] : date.value;
+        var timeEl = document.getElementById("bkTime");
+        var noteEl = document.getElementById("bkNote");
+        fetch("https://script.google.com/macros/s/AKfycbyGgg8UNHazYD91G9kvMY5DN_KAKBDs8QC2TCjgyy9y1kdTrZ5U7P7_Qts9odwfutFfqg/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({
+            date: dateText + " — " + (timeEl ? timeEl.options[timeEl.selectedIndex].text : ""),
+            transferCode: "",
+            name: name.value.trim(),
+            service: promo.options[promo.selectedIndex].text,
+            phone: phone.value.trim(),
+            email: "",
+            address: "",
+            note: noteEl ? noteEl.value.trim() : "",
+            paymentStatus: "",
+            bookingStatus: ""
+          })
+        });
+      } catch (sheetErr) { /* giữ chỗ qua hotline/Zalo vẫn hoạt động */ }
       var time = document.getElementById("bkTime");
       var note = document.getElementById("bkNote");
       var summary = document.getElementById("bookSummary");
