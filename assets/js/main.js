@@ -64,7 +64,7 @@
         var dateText = dParts.length === 3 ? dParts[2] + "/" + dParts[1] + "/" + dParts[0] : date.value;
         var timeEl = document.getElementById("bkTime");
         var noteEl = document.getElementById("bkNote");
-        fetch("https://script.google.com/macros/s/AKfycbyGgg8UNHazYD91G9kvMY5DN_KAKBDs8QC2TCjgyy9y1kdTrZ5U7P7_Qts9odwfutFfqg/exec", {
+        fetch("https://script.google.com/macros/s/AKfycbyiXuvXxRgWTqtINj0WuhfiIZSrSkn5ruXH5CqNfgbpoTAaL8mHL0LlPnZKfrzcE0VdKQ/exec", {
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "text/plain" },
