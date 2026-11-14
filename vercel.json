@@ -23,6 +23,10 @@
     {
       "source": "/phuc-hoi-da-nhiem-corticoid",
       "destination": "/phuc-hoi-da-nhiem-corticoid.html"
+    },
+    {
+      "source": "/sinh-nhat",
+      "destination": "/sinh-nhat.html"
     }
   ]
 }
